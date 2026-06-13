@@ -23,20 +23,21 @@ export function SiteFooter() {
               <li><Link href="/memories">Memory Board</Link></li>
               <li><Link href="/friends">Friends Directory</Link></li>
               <li><Link href="/mural">Photographic Mural</Link></li>
+              <li><Link href="/about">About this Project</Link></li>
             </ul>
           </nav>
         </div>
 
         <p className={styles.custodian}>
-          Custodian &amp; owner: Chris Brotherton,{" "}
+          This website is for the Southport community past, present and future as a
+          gift by Chris Brotherton -{" "}
           <a
             href="https://mettletherapy.co.uk"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Mettle Therapy
-          </a>{" "}
-          (mettletherapy.co.uk).
+            mettletherapy.co.uk
+          </a>
         </p>
 
         <p className={styles.disclaimer}>
