@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/db";
 import { memorySubmissionSchema } from "@/lib/validation/memory";
 import { uploadImage } from "@/lib/storage";
+import { deriveMemoryYear } from "@/lib/memory-date";
 
 export type SubmitState = {
   ok: boolean;
@@ -87,6 +88,7 @@ export async function submitMemory(
       residentName,
       story,
       memoryDate: memoryDate || null,
+      memoryYear: deriveMemoryYear(memoryDate),
       imageURL: resolvedImageURL,
       blurDataURL: resolvedBlur,
       imageAlt: imageAlt || null,

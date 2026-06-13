@@ -71,6 +71,10 @@ model MemoryPost {
   // "Summer 1985", "01/01/2022"). Kept as text on purpose — many memories are
   // approximate and a strict date can't express a year-only or seasonal memory.
   memoryDate  String?
+  // Sortable year derived from memoryDate at write time (lib/memory-date.ts).
+  // Powers the decade filters on the public Memory Board. Null when no year
+  // could be parsed (e.g. "Summer holidays").
+  memoryYear  Int?
 
   // approvalStatus is the SINGLE SOURCE OF TRUTH. isApproved is a derived mirror
   // kept in sync inside the moderation Server Action for fast boolean indexing.
@@ -84,6 +88,7 @@ model MemoryPost {
 
   @@index([isApproved, createdAt])
   @@index([approvalStatus, createdAt])
+  @@index([approvalStatus, memoryYear])
 }
 
 model DirectoryListing {

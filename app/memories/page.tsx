@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { ArchiveLabel } from "@/components/ui/ArchiveLabel";
 import { SideNote } from "@/components/ui/SideNote";
 import { MemoryBoard } from "@/components/memory/MemoryBoard";
 import { MemoryForm } from "@/components/memory/MemoryForm";
 import { getApprovedMemories } from "@/lib/data/memories";
+import { decadeOf, decadeLabel } from "@/lib/memory-date";
 import { ARCHIVE_DISCLAIMER } from "@/lib/content/friends";
 import styles from "./memories.module.css";
 
@@ -18,8 +20,28 @@ export const metadata: Metadata = {
 // ISR backstop; on-demand revalidation (tag 'memories:approved') keeps it instant.
 export const revalidate = 3600;
 
-export default async function MemoriesPage() {
-  const memories = await getApprovedMemories().catch(() => []);
+export default async function MemoriesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ decade?: string }>;
+}) {
+  const { decade } = await searchParams;
+  const all = await getApprovedMemories().catch(() => []);
+
+  // Auto-generate decade categories from the years actually present in the data.
+  const decades = Array.from(
+    new Set(all.filter((m) => m.memoryYear != null).map((m) => decadeOf(m.memoryYear!))),
+  ).sort((a, b) => a - b);
+
+  const activeDecade = decade && /^\d{4}$/.test(decade) ? Number(decade) : null;
+
+  let memories = all;
+  if (activeDecade != null) {
+    memories = all
+      .filter((m) => m.memoryYear != null && decadeOf(m.memoryYear) === activeDecade)
+      // Within a decade, browse chronologically by the memory's own year.
+      .sort((a, b) => (a.memoryYear ?? 0) - (b.memoryYear ?? 0));
+  }
 
   return (
     <Container>
@@ -34,6 +56,29 @@ export default async function MemoriesPage() {
           <p>{ARCHIVE_DISCLAIMER}</p>
         </SideNote>
       </header>
+
+      {decades.length > 0 ? (
+        <nav className={styles.filters} aria-label="Filter memories by decade">
+          <span className={styles.filtersLabel}>Browse by era:</span>
+          <Link
+            href="/memories"
+            className={`${styles.chip} ${activeDecade == null ? styles.chipActive : ""}`}
+            aria-current={activeDecade == null ? "page" : undefined}
+          >
+            All
+          </Link>
+          {decades.map((d) => (
+            <Link
+              key={d}
+              href={`/memories?decade=${d}`}
+              className={`${styles.chip} ${activeDecade === d ? styles.chipActive : ""}`}
+              aria-current={activeDecade === d ? "page" : undefined}
+            >
+              {decadeLabel(d)}
+            </Link>
+          ))}
+        </nav>
+      ) : null}
 
       <MemoryBoard memories={memories} />
 
