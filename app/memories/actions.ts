@@ -55,7 +55,7 @@ export async function submitMemory(
       return {
         ok: false,
         message: "Please check the highlighted fields.",
-        fieldErrors: { imageFile: "Please upload a JPEG, PNG, WebP or AVIF image." },
+        fieldErrors: { imageFile: "Please upload a JPG/JPEG, PNG, WebP or AVIF image." },
       };
     }
     if (file.size > MAX_UPLOAD_BYTES) {

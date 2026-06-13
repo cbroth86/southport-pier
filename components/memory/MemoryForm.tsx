@@ -64,13 +64,13 @@ export function MemoryForm() {
       <div className={styles.field}>
         <label htmlFor="imageFile">Upload a photograph <span className={styles.optional}>(optional)</span></label>
         <input id="imageFile" name="imageFile" type="file"
-          accept="image/png,image/jpeg,image/webp,image/avif"
+          accept="image/jpeg,image/png,image/webp,image/avif,.jpg,.jpeg,.png,.webp,.avif"
           className={styles.fileInput}
           aria-describedby="hint-file"
           aria-invalid={!!errors.imageFile}
         />
         <span id="hint-file" className={styles.hint}>
-          Choose a photo from your device (JPEG, PNG, WebP or AVIF, up to 8&nbsp;MB).
+          Choose a photo from your device (JPG/JPEG, PNG, WebP or AVIF, up to 8&nbsp;MB).
         </span>
         {errors.imageFile ? <span className={styles.error}>{errors.imageFile}</span> : null}
       </div>
