@@ -2,12 +2,17 @@
 
 import { prisma } from "@/lib/db";
 import { memorySubmissionSchema } from "@/lib/validation/memory";
+import { uploadImage } from "@/lib/storage";
+import { deriveMemoryYear } from "@/lib/memory-date";
 
 export type SubmitState = {
   ok: boolean;
   message: string;
   fieldErrors?: Record<string, string>;
 };
+
+const MAX_UPLOAD_BYTES = 8 * 1024 * 1024; // 8MB — mirrors serverActions.bodySizeLimit.
+const ACCEPTED_TYPES = ["image/png", "image/jpeg", "image/webp", "image/avif"];
 
 /**
  * Public submission. Writes a MemoryPost with approvalStatus = PENDING (the default).
@@ -22,6 +27,7 @@ export async function submitMemory(
     title: formData.get("title"),
     residentName: formData.get("residentName"),
     story: formData.get("story"),
+    memoryDate: formData.get("memoryDate") ?? "",
     imageURL: formData.get("imageURL") ?? "",
     imageAlt: formData.get("imageAlt") ?? "",
     website: formData.get("website") ?? "", // honeypot
@@ -41,14 +47,50 @@ export async function submitMemory(
     return { ok: true, message: "Thank you — your memory has been submitted for review." };
   }
 
-  const { title, residentName, story, imageURL, imageAlt } = parsed.data;
+  const { title, residentName, story, memoryDate, imageURL, imageAlt } = parsed.data;
+
+  // An uploaded file (if provided) takes precedence over a pasted URL.
+  let resolvedImageURL = imageURL || "";
+  let resolvedBlur: string | null = null;
+  const file = formData.get("imageFile");
+  if (file instanceof File && file.size > 0) {
+    if (!ACCEPTED_TYPES.includes(file.type)) {
+      return {
+        ok: false,
+        message: "Please check the highlighted fields.",
+        fieldErrors: { imageFile: "Please upload a JPG/JPEG, PNG, WebP or AVIF image." },
+      };
+    }
+    if (file.size > MAX_UPLOAD_BYTES) {
+      return {
+        ok: false,
+        message: "Please check the highlighted fields.",
+        fieldErrors: { imageFile: "That image is larger than 8 MB. Please choose a smaller file." },
+      };
+    }
+    try {
+      const stored = await uploadImage(file);
+      resolvedImageURL = stored.url;
+      resolvedBlur = stored.blurDataURL;
+    } catch {
+      return {
+        ok: false,
+        message:
+          "Sorry — we couldn’t upload that photograph just now. You can try again, paste a photo URL instead, or submit without an image.",
+        fieldErrors: { imageFile: "Upload failed. Please try again or use a photo URL." },
+      };
+    }
+  }
 
   await prisma.memoryPost.create({
     data: {
       title,
       residentName,
       story,
-      imageURL: imageURL || "",
+      memoryDate: memoryDate || null,
+      memoryYear: deriveMemoryYear(memoryDate),
+      imageURL: resolvedImageURL,
+      blurDataURL: resolvedBlur,
       imageAlt: imageAlt || null,
       approvalStatus: "PENDING",
       isApproved: false,

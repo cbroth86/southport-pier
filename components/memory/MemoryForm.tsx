@@ -41,32 +41,95 @@ export function MemoryForm() {
       ) : null}
 
       <div className={styles.field}>
-        <label htmlFor="title">Memory title</label>
-        <input id="title" name="title" required maxLength={120}
+        <label htmlFor="title">
+          Memory title{" "}
+          <span className={styles.tip} tabIndex={0} role="note"
+            aria-label="At least 4 characters, up to 120." title="At least 4 characters, up to 120.">?</span>
+        </label>
+        <input id="title" name="title" required minLength={4} maxLength={120}
           aria-invalid={!!errors.title} aria-describedby={errors.title ? "err-title" : undefined} />
         {errors.title ? <span id="err-title" className={styles.error}>{errors.title}</span> : null}
       </div>
 
       <div className={styles.field}>
-        <label htmlFor="residentName">Your name</label>
-        <input id="residentName" name="residentName" required maxLength={80}
+        <label htmlFor="residentName">
+          Your name{" "}
+          <span className={styles.tip} tabIndex={0} role="note"
+            aria-label="At least 2 characters. This appears with your memory." title="At least 2 characters. This appears with your memory.">?</span>
+        </label>
+        <input id="residentName" name="residentName" required minLength={2} maxLength={80}
           aria-invalid={!!errors.residentName} aria-describedby={errors.residentName ? "err-name" : undefined} />
         {errors.residentName ? <span id="err-name" className={styles.error}>{errors.residentName}</span> : null}
       </div>
 
       <div className={styles.field}>
-        <label htmlFor="story">Your memory</label>
-        <textarea id="story" name="story" rows={6} required maxLength={4000}
-          aria-invalid={!!errors.story} aria-describedby={errors.story ? "err-story" : undefined} />
-        {errors.story ? <span id="err-story" className={styles.error}>{errors.story}</span> : null}
+        <label htmlFor="story">
+          Your memory{" "}
+          <span className={styles.tip} tabIndex={0} role="note"
+            aria-label="Please write at least 40 characters (up to 4,000) so others can enjoy the detail."
+            title="Please write at least 40 characters (up to 4,000) so others can enjoy the detail.">?</span>
+        </label>
+        <textarea id="story" name="story" rows={6} required minLength={40} maxLength={4000}
+          aria-invalid={!!errors.story} aria-describedby={errors.story ? "err-story" : "hint-story"} />
+        {errors.story ? (
+          <span id="err-story" className={styles.error}>{errors.story}</span>
+        ) : (
+          <span id="hint-story" className={styles.hint}>Minimum 40 characters.</span>
+        )}
       </div>
 
       <div className={styles.field}>
-        <label htmlFor="imageURL">Photograph URL <span className={styles.optional}>(optional)</span></label>
+        <label htmlFor="memoryDate">
+          Your memory date / year <span className={styles.optional}>(optional)</span>{" "}
+          <span className={styles.tip} tabIndex={0} role="note"
+            aria-label="When did this happen? Be as precise or as rough as you like — a year (1990), a month and year (March 2020), a season (Summer 1985), or a full date (01/01/2022) are all fine."
+            title="When did this happen? Be as precise or as rough as you like — a year (1990), a month and year (March 2020), a season (Summer 1985), or a full date (01/01/2022) are all fine.">?</span>
+        </label>
+        <input id="memoryDate" name="memoryDate" type="text" maxLength={40}
+          placeholder="e.g. 1990, March 2020, or 01/01/2022"
+          aria-describedby="hint-date"
+          aria-invalid={!!errors.memoryDate} />
+        {errors.memoryDate ? (
+          <span className={styles.error}>{errors.memoryDate}</span>
+        ) : (
+          <span id="hint-date" className={styles.hint}>
+            A year, month and year, season, or full date — whatever you remember.
+          </span>
+        )}
+      </div>
+
+      <div className={styles.field}>
+        <label htmlFor="imageFile">Upload a photograph <span className={styles.optional}>(optional)</span></label>
+        <input id="imageFile" name="imageFile" type="file"
+          accept="image/jpeg,image/png,image/webp,image/avif,.jpg,.jpeg,.png,.webp,.avif"
+          className={styles.fileInput}
+          aria-describedby="hint-file"
+          aria-invalid={!!errors.imageFile}
+        />
+        <span id="hint-file" className={styles.hint}>
+          Choose a photo from your device (JPG/JPEG, PNG, WebP or AVIF, up to 8&nbsp;MB).
+        </span>
+        {errors.imageFile ? <span className={styles.error}>{errors.imageFile}</span> : null}
+      </div>
+
+      <div className={styles.field}>
+        <label htmlFor="imageURL">
+          Photograph URL <span className={styles.optional}>(optional)</span>{" "}
+          <span
+            className={styles.tip}
+            tabIndex={0}
+            role="note"
+            aria-label="Only needed if your photo is already online. Open the image on a site such as Facebook, right-click (or press and hold on mobile) and choose “Copy image address”, then paste the link here. If you have the photo on your device, use the upload option above instead."
+            title="Only needed if your photo is already online. Open the image on a site such as Facebook, right-click (or press and hold on mobile) and choose “Copy image address”, then paste the link here. If you have the photo on your device, use the upload option above instead."
+          >
+            ?
+          </span>
+        </label>
         <input id="imageURL" name="imageURL" type="url" inputMode="url"
           placeholder="https://…" aria-describedby="hint-image" />
         <span id="hint-image" className={styles.hint}>
-          Paste a link to a photograph to accompany your memory.
+          Already have the photo online? Paste its direct link. Otherwise use the upload
+          option above.
         </span>
       </div>
 

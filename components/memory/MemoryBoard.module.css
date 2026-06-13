@@ -26,6 +26,14 @@
   display: block;
 }
 
+.when {
+  font-size: var(--text-meta);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent-ink, var(--color-muted));
+  margin: 0 0 0.2rem;
+}
+
 .text h3 { margin: 0 0 0.4rem; }
 
 .story {

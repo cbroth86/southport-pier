@@ -10,6 +10,35 @@
   color: var(--color-muted);
 }
 
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: var(--space-3) 0 var(--space-4);
+  align-items: center;
+}
+.filtersLabel {
+  font-size: var(--text-meta);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-right: 0.25rem;
+}
+.chip {
+  text-decoration: none;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  border: 1px solid var(--color-line-strong);
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+}
+.chip:hover { border-color: var(--color-accent); }
+.chipActive {
+  background: var(--color-primary);
+  color: var(--color-bg);
+  border-color: var(--color-primary);
+}
+
 .submit {
   margin-top: var(--space-6);
   padding-top: var(--space-4);

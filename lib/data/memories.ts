@@ -11,6 +11,8 @@ export type ApprovedMemory = {
   imageAlt: string | null;
   blurDataURL: string | null;
   residentName: string;
+  memoryDate: string | null;
+  memoryYear: number | null;
   createdAt: Date;
 };
 
@@ -31,6 +33,8 @@ export const getApprovedMemories = unstable_cache(
         imageAlt: true,
         blurDataURL: true,
         residentName: true,
+        memoryDate: true,
+        memoryYear: true,
         createdAt: true,
       },
     });

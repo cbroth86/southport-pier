@@ -48,8 +48,20 @@
 }
 .links a:hover { color: var(--color-accent); }
 
-.disclaimer {
+.custodian {
   margin: var(--space-3) 0 0;
+  font-size: var(--text-sm);
+  letter-spacing: 0.02em;
+  color: color-mix(in srgb, var(--color-secondary) 85%, transparent);
+}
+.custodian a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+.custodian a:hover { text-decoration: underline; }
+
+.disclaimer {
+  margin: var(--space-2) 0 0;
   font-size: var(--text-sm);
   letter-spacing: 0.02em;
   color: color-mix(in srgb, var(--color-secondary) 70%, transparent);

@@ -23,9 +23,23 @@ export function SiteFooter() {
               <li><Link href="/memories">Memory Board</Link></li>
               <li><Link href="/friends">Friends Directory</Link></li>
               <li><Link href="/mural">Photographic Mural</Link></li>
+              <li><Link href="/about">About this Project</Link></li>
+              <li><Link href="/feedback">Feedback &amp; Concerns</Link></li>
             </ul>
           </nav>
         </div>
+
+        <p className={styles.custodian}>
+          This website is for the Southport community past, present and future as a
+          gift by Chris Brotherton -{" "}
+          <a
+            href="https://mettletherapy.co.uk"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            mettletherapy.co.uk
+          </a>
+        </p>
 
         <p className={styles.disclaimer}>
           An independent community archive. Not affiliated with Sefton Council.
