@@ -44,10 +44,11 @@ export function MemoryBoard({ memories }: { memories: ApprovedMemory[] }) {
               </div>
             ) : null}
             <div className={styles.text}>
+              {m.memoryDate ? <p className={styles.when}>{m.memoryDate}</p> : null}
               <h3>{m.title}</h3>
               <p className={styles.story}>{m.story}</p>
               <p className={styles.byline}>
-                {m.residentName} · {formatYear(m.createdAt)}
+                {m.residentName} · shared {formatYear(m.createdAt)}
               </p>
             </div>
           </article>

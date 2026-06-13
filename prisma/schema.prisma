@@ -67,6 +67,10 @@ model MemoryPost {
   imageAlt    String?
   blurDataURL String?
   residentName String
+  // Free-text era/date the memory is ABOUT (e.g. "1990", "March 2020",
+  // "Summer 1985", "01/01/2022"). Kept as text on purpose — many memories are
+  // approximate and a strict date can't express a year-only or seasonal memory.
+  memoryDate  String?
 
   // approvalStatus is the SINGLE SOURCE OF TRUTH. isApproved is a derived mirror
   // kept in sync inside the moderation Server Action for fast boolean indexing.

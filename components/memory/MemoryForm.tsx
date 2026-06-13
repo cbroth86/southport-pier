@@ -79,6 +79,26 @@ export function MemoryForm() {
       </div>
 
       <div className={styles.field}>
+        <label htmlFor="memoryDate">
+          Your memory date / year <span className={styles.optional}>(optional)</span>{" "}
+          <span className={styles.tip} tabIndex={0} role="note"
+            aria-label="When did this happen? Be as precise or as rough as you like — a year (1990), a month and year (March 2020), a season (Summer 1985), or a full date (01/01/2022) are all fine."
+            title="When did this happen? Be as precise or as rough as you like — a year (1990), a month and year (March 2020), a season (Summer 1985), or a full date (01/01/2022) are all fine.">?</span>
+        </label>
+        <input id="memoryDate" name="memoryDate" type="text" maxLength={40}
+          placeholder="e.g. 1990, March 2020, or 01/01/2022"
+          aria-describedby="hint-date"
+          aria-invalid={!!errors.memoryDate} />
+        {errors.memoryDate ? (
+          <span className={styles.error}>{errors.memoryDate}</span>
+        ) : (
+          <span id="hint-date" className={styles.hint}>
+            A year, month and year, season, or full date — whatever you remember.
+          </span>
+        )}
+      </div>
+
+      <div className={styles.field}>
         <label htmlFor="imageFile">Upload a photograph <span className={styles.optional}>(optional)</span></label>
         <input id="imageFile" name="imageFile" type="file"
           accept="image/jpeg,image/png,image/webp,image/avif,.jpg,.jpeg,.png,.webp,.avif"

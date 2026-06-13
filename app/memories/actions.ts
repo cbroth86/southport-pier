@@ -26,6 +26,7 @@ export async function submitMemory(
     title: formData.get("title"),
     residentName: formData.get("residentName"),
     story: formData.get("story"),
+    memoryDate: formData.get("memoryDate") ?? "",
     imageURL: formData.get("imageURL") ?? "",
     imageAlt: formData.get("imageAlt") ?? "",
     website: formData.get("website") ?? "", // honeypot
@@ -45,10 +46,11 @@ export async function submitMemory(
     return { ok: true, message: "Thank you — your memory has been submitted for review." };
   }
 
-  const { title, residentName, story, imageURL, imageAlt } = parsed.data;
+  const { title, residentName, story, memoryDate, imageURL, imageAlt } = parsed.data;
 
   // An uploaded file (if provided) takes precedence over a pasted URL.
   let resolvedImageURL = imageURL || "";
+  let resolvedBlur: string | null = null;
   const file = formData.get("imageFile");
   if (file instanceof File && file.size > 0) {
     if (!ACCEPTED_TYPES.includes(file.type)) {
@@ -68,6 +70,7 @@ export async function submitMemory(
     try {
       const stored = await uploadImage(file);
       resolvedImageURL = stored.url;
+      resolvedBlur = stored.blurDataURL;
     } catch {
       return {
         ok: false,
@@ -83,7 +86,9 @@ export async function submitMemory(
       title,
       residentName,
       story,
+      memoryDate: memoryDate || null,
       imageURL: resolvedImageURL,
+      blurDataURL: resolvedBlur,
       imageAlt: imageAlt || null,
       approvalStatus: "PENDING",
       isApproved: false,

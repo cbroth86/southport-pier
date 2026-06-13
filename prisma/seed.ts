@@ -86,6 +86,7 @@ async function main() {
         story:
           "Every Sunday after church my grandad would take us to the very end of the pier. He'd buy us a paper bag of mint humbugs and tell us about the trams that used to run the length of it. The wind off the Ribble could nearly knock you over, but he never once turned back early.",
         residentName: "Margaret H.",
+        memoryDate: "Summer 1958",
         imageURL: "",
         imageAlt: null,
         approvalStatus: "APPROVED",
@@ -99,6 +100,7 @@ async function main() {
         story:
           "I spent every penny of my pocket money in the little arcade at the pier head in the 1980s. The penny falls, the smell of the sea, the lights — it felt like the edge of the world to a ten year old.",
         residentName: "Dave P.",
+        memoryDate: "1983",
         imageURL: "",
         approvalStatus: "PENDING",
         isApproved: false,
