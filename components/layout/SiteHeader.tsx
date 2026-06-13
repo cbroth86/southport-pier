@@ -25,9 +25,9 @@ export function SiteHeader() {
         <details className={styles.nav}>
           <summary className={styles.toggle} aria-label="Toggle navigation menu">
             <span className={styles.toggleBar} aria-hidden="true" />
-            Menu
+            <span className={styles.toggleText}>Menu</span>
           </summary>
-          <nav aria-label="Primary">
+          <nav aria-label="Primary" className={styles.panel}>
             <ul className={styles.list}>
               {NAV.map((item) => (
                 <li key={item.href}>

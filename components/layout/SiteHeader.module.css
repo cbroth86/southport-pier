@@ -64,6 +64,18 @@
   display: none;
 }
 
+/* Desktop (≥641px): inline nav, always visible. The !important overrides the
+   UA stylesheet rule that hides <details> content while the element is closed. */
+@media (min-width: 641px) {
+  .panel {
+    display: block !important;
+  }
+  .toggle {
+    display: none;
+  }
+}
+
+/* Mobile (≤640px): the menu is a full-screen overlay toggled by the summary. */
 @media (max-width: 640px) {
   .toggle {
     display: inline-flex;
@@ -72,19 +84,68 @@
     cursor: pointer;
     font-weight: 500;
     list-style: none;
+    /* Stay above the open overlay so it can be tapped to close. */
+    position: relative;
+    z-index: 70;
   }
   .toggle::-webkit-details-marker {
     display: none;
   }
   .toggleBar {
-    width: 1.2rem;
+    position: relative;
+    width: 1.4rem;
     height: 2px;
     background: var(--color-primary);
-    box-shadow: 0 5px 0 var(--color-primary), 0 -5px 0 var(--color-primary);
+    box-shadow: 0 6px 0 var(--color-primary), 0 -6px 0 var(--color-primary);
+    transition: background 0.15s ease;
   }
+  /* Open state: morph the burger into an ✕. */
+  .nav[open] .toggleBar {
+    background: transparent;
+    box-shadow: none;
+  }
+  .nav[open] .toggleBar::before,
+  .nav[open] .toggleBar::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.4rem;
+    height: 2px;
+    background: var(--color-primary);
+  }
+  .nav[open] .toggleBar::before { transform: rotate(45deg); }
+  .nav[open] .toggleBar::after { transform: rotate(-45deg); }
+
+  /* Closed: content hidden (also enforced by the UA stylesheet). */
+  .nav:not([open]) .panel {
+    display: none;
+  }
+
+  /* Open: full-screen overlay covering the entire viewport on every device. */
+  .nav[open] .panel {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--color-bg);
+    padding: calc(var(--space-5) + env(safe-area-inset-top))
+      var(--page-gutter)
+      calc(var(--space-5) + env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
   .list {
     flex-direction: column;
-    gap: var(--space-2);
-    padding: var(--space-2) 0 0;
+    gap: var(--space-3);
+    padding: 0;
+  }
+  .link {
+    font-family: var(--font-headings);
+    font-size: 1.75rem;
+    border-bottom: 0;
   }
 }

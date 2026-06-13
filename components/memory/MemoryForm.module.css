@@ -36,6 +36,39 @@
 
 .hint { font-size: var(--text-sm); color: var(--color-muted); }
 
+.fileInput {
+  padding: 0.5rem 0.6rem !important;
+  background: var(--color-surface) !important;
+  cursor: pointer;
+}
+.fileInput::file-selector-button {
+  font: inherit;
+  font-weight: 500;
+  margin-right: 0.75rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--color-line-strong);
+  background: var(--color-bg);
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+/* Inline help marker beside a label — reveals guidance on hover/focus via title. */
+.tip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15em;
+  height: 1.15em;
+  border-radius: 50%;
+  border: 1px solid var(--color-line-strong);
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: help;
+  vertical-align: middle;
+}
+.tip:focus-visible { outline: 2px solid var(--color-accent-ink); }
+
 .error {
   color: #8a2b22;
   font-size: var(--text-sm);

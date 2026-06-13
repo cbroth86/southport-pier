@@ -62,11 +62,37 @@ export function MemoryForm() {
       </div>
 
       <div className={styles.field}>
-        <label htmlFor="imageURL">Photograph URL <span className={styles.optional}>(optional)</span></label>
+        <label htmlFor="imageFile">Upload a photograph <span className={styles.optional}>(optional)</span></label>
+        <input id="imageFile" name="imageFile" type="file"
+          accept="image/png,image/jpeg,image/webp,image/avif"
+          className={styles.fileInput}
+          aria-describedby="hint-file"
+          aria-invalid={!!errors.imageFile}
+        />
+        <span id="hint-file" className={styles.hint}>
+          Choose a photo from your device (JPEG, PNG, WebP or AVIF, up to 8&nbsp;MB).
+        </span>
+        {errors.imageFile ? <span className={styles.error}>{errors.imageFile}</span> : null}
+      </div>
+
+      <div className={styles.field}>
+        <label htmlFor="imageURL">
+          Photograph URL <span className={styles.optional}>(optional)</span>{" "}
+          <span
+            className={styles.tip}
+            tabIndex={0}
+            role="note"
+            aria-label="Only needed if your photo is already online. Open the image on a site such as Facebook, right-click (or press and hold on mobile) and choose “Copy image address”, then paste the link here. If you have the photo on your device, use the upload option above instead."
+            title="Only needed if your photo is already online. Open the image on a site such as Facebook, right-click (or press and hold on mobile) and choose “Copy image address”, then paste the link here. If you have the photo on your device, use the upload option above instead."
+          >
+            ?
+          </span>
+        </label>
         <input id="imageURL" name="imageURL" type="url" inputMode="url"
           placeholder="https://…" aria-describedby="hint-image" />
         <span id="hint-image" className={styles.hint}>
-          Paste a link to a photograph to accompany your memory.
+          Already have the photo online? Paste its direct link. Otherwise use the upload
+          option above.
         </span>
       </div>
 

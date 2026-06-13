@@ -5,6 +5,11 @@ import { prisma } from "@/lib/db";
 import { CACHE_TAGS } from "@/lib/revalidate";
 import { CURATED_LISTINGS, findCuratedListing } from "@/lib/content/curated-listings";
 
+/** No database configured (e.g. preview deploys) → serve the curated fallback. */
+function hasDatabase(): boolean {
+  return Boolean(process.env.DATABASE_URL);
+}
+
 /**
  * Public read: APPROVED listings. Cached and tagged 'directory:listings'.
  * FOUNDER tier first (civic partners lead), then by category for stable grouping.
@@ -16,6 +21,7 @@ import { CURATED_LISTINGS, findCuratedListing } from "@/lib/content/curated-list
  */
 export const getApprovedListings = unstable_cache(
   async () => {
+    if (!hasDatabase()) return CURATED_LISTINGS;
     try {
       return await prisma.directoryListing.findMany({
         where: { approvalStatus: "APPROVED" },
@@ -31,6 +37,7 @@ export const getApprovedListings = unstable_cache(
 
 export const getListingBySlug = unstable_cache(
   async (slug: string) => {
+    if (!hasDatabase()) return findCuratedListing(slug);
     try {
       return await prisma.directoryListing.findFirst({
         where: { slug, approvalStatus: "APPROVED" },
@@ -45,6 +52,7 @@ export const getListingBySlug = unstable_cache(
 
 export const getApprovedSlugs = unstable_cache(
   async (): Promise<string[]> => {
+    if (!hasDatabase()) return CURATED_LISTINGS.map((l) => l.slug);
     try {
       const rows = await prisma.directoryListing.findMany({
         where: { approvalStatus: "APPROVED" },
