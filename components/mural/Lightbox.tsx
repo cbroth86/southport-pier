@@ -47,6 +47,14 @@ export function Lightbox({ item, onClose }: { item: MuralItem; onClose: () => vo
             {item.credit ? <span>Credit: {item.credit}</span> : null}
             {item.yearTaken ? <span>Year: {item.yearTaken}</span> : null}
           </p>
+          <p className={styles.report}>
+            <a href={`/feedback?type=photo&ref=${encodeURIComponent(item.id)}`}>
+              Report a concern about this photo
+            </a>
+            <span className={styles.reportNote}>
+              This is a volunteer-run project and isn’t monitored around the clock.
+            </span>
+          </p>
         </figcaption>
       </div>
     </dialog>

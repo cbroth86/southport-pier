@@ -91,3 +91,18 @@
   font-size: var(--text-sm);
   color: color-mix(in srgb, var(--color-secondary) 80%, transparent);
 }
+.report {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin: 0.6rem 0 0;
+  font-size: var(--text-sm);
+}
+.report a {
+  color: var(--color-secondary);
+  text-decoration: underline;
+}
+.report a:hover { color: var(--color-accent); }
+.reportNote {
+  color: color-mix(in srgb, var(--color-secondary) 65%, transparent);
+}

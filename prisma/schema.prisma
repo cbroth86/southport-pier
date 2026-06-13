@@ -34,6 +34,18 @@ enum ApprovalStatus {
   REJECTED
 }
 
+enum FeedbackType {
+  RECOMMENDATION
+  CONCERN
+  PHOTO_CONCERN
+}
+
+enum FeedbackStatus {
+  NEW
+  REVIEWED
+  RESOLVED
+}
+
 model User {
   id               String             @id @default(cuid())
   email            String             @unique
@@ -93,6 +105,20 @@ model DirectoryListing {
 
   @@index([category, membershipTier])
   @@index([approvalStatus, createdAt])
+}
+
+model Feedback {
+  id           String         @id @default(cuid())
+  type         FeedbackType
+  message      String
+  contactName  String?
+  contactEmail String?
+  // For PHOTO_CONCERN: the reported photo's id or URL. Otherwise null.
+  reference    String?
+  status       FeedbackStatus @default(NEW)
+  createdAt    DateTime       @default(now())
+
+  @@index([status, createdAt])
 }
 
 model UploadedMedia {

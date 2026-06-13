@@ -24,6 +24,7 @@ export function SiteFooter() {
               <li><Link href="/friends">Friends Directory</Link></li>
               <li><Link href="/mural">Photographic Mural</Link></li>
               <li><Link href="/about">About this Project</Link></li>
+              <li><Link href="/feedback">Feedback &amp; Concerns</Link></li>
             </ul>
           </nav>
         </div>
