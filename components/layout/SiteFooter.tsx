@@ -27,6 +27,18 @@ export function SiteFooter() {
           </nav>
         </div>
 
+        <p className={styles.custodian}>
+          Custodian &amp; owner: Chris Brotherton,{" "}
+          <a
+            href="https://mettletherapy.co.uk"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Mettle Therapy
+          </a>{" "}
+          (mettletherapy.co.uk).
+        </p>
+
         <p className={styles.disclaimer}>
           An independent community archive. Not affiliated with Sefton Council.
         </p>
