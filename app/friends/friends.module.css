@@ -1,0 +1,11 @@
+.head {
+  padding-top: var(--space-5);
+  max-width: var(--measure);
+}
+.intro {
+  font-size: 1.2rem;
+  color: var(--color-muted);
+}
+
+.founderSection { margin-top: var(--space-4); }
+.founderNote { color: var(--color-muted); margin: 0; max-width: 48ch; }

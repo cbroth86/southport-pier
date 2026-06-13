@@ -1,0 +1,135 @@
+/* ============================================================================
+   Southport Pier — global design tokens & base styles
+   Native CSS Custom Properties only. No utility CSS, no component libraries.
+   Fonts are wired via next/font in layout.tsx (CSS variables, display: swap).
+   ============================================================================ */
+
+:root {
+  /* Typeface variables are populated by next/font (--font-fraunces / --font-dm-sans). */
+  --font-headings: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-dm-sans), system-ui, -apple-system, sans-serif;
+
+  /* Heritage palette — never pure #000 or #fff. */
+  --color-primary: #1a2e40;       /* Deep Sea Blue */
+  --color-primary-deep: #12212f;  /* Deeper ink for footers / wells */
+  --color-secondary: #e6dfd3;     /* Weathered Deck Sand */
+  --color-bg: #fbfbfa;            /* Soft Off-White */
+  --color-surface: #f4f1ea;       /* Warm paper surface for side notes */
+  --color-text: #2d3134;          /* Soft Charcoal */
+  --color-muted: #5c625f;         /* Muted charcoal for captions / meta */
+  --color-accent: #c49a45;        /* Vintage Brass/Gold — DECORATIVE ONLY (2.5:1) */
+  --color-accent-ink: #7a5e1c;    /* Accessible brass for TEXT (>=4.5:1 on bg) */
+  --color-line: #d8d2c6;          /* Hairline rules on light surfaces */
+  --color-line-strong: #b7ad9b;
+
+  /* Typography scale */
+  --text-base: 1.125rem;          /* 18px — senior-friendly base */
+  --text-sm: 0.9375rem;
+  --text-meta: 0.8125rem;
+  --text-h1: clamp(2.6rem, 2.2rem + 2.5vw, 4.2rem);
+  --text-h2: clamp(1.85rem, 1.6rem + 1.25vw, 2.6rem);
+  --text-h3: clamp(1.3rem, 1.2rem + 0.6vw, 1.6rem);
+  --leading-body: 1.65;
+  --leading-tight: 1.2;
+
+  /* Reading measure & spacing rhythm */
+  --measure: 68ch;
+  --measure-narrow: 54ch;
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2.5rem;
+  --space-5: 4rem;
+  --space-6: 6rem;
+
+  --page-gutter: clamp(1.25rem, 5vw, 4rem);
+  --content-max: 72rem;
+
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  padding: 0;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-headings);
+  color: var(--color-primary);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: var(--leading-tight);
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--text-h1); margin: 0 0 var(--space-3); }
+h2 { font-size: var(--text-h2); margin: 0 0 var(--space-2); }
+h3 { font-size: var(--text-h3); margin: 0 0 var(--space-1); }
+
+p { margin: 0 0 var(--space-2); max-width: var(--measure); }
+
+a {
+  color: var(--color-accent-ink);
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+a:hover { text-decoration-thickness: 2px; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* Visible, non-jarring keyboard focus on every interactive element. */
+:focus-visible {
+  outline: 3px solid var(--color-accent-ink);
+  outline-offset: 2px;
+  border-radius: 1px;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-primary-deep);
+}
+
+/* Skip link — first tab stop. */
+.skip-link {
+  position: absolute;
+  left: var(--space-2);
+  top: -3rem;
+  z-index: 100;
+  background: var(--color-primary);
+  color: var(--color-bg);
+  padding: 0.6rem 1rem;
+  transition: top 160ms var(--ease);
+}
+.skip-link:focus { top: var(--space-2); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

@@ -1,0 +1,19 @@
+.head { padding-top: var(--space-5); }
+.who { color: var(--color-muted); font-size: var(--text-sm); }
+.section { margin-top: var(--space-4); }
+.queue { list-style: none; margin: var(--space-2) 0 0; padding: 0; }
+.row {
+  border-top: 1px solid var(--color-line);
+  padding: var(--space-3) 0;
+  max-width: var(--measure);
+}
+.row h3 { margin: 0 0 0.2rem; }
+.meta {
+  font-size: var(--text-meta);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin: 0 0 var(--space-1);
+}
+.empty { color: var(--color-muted); font-style: italic; }
+.locked { padding-top: var(--space-5); color: var(--color-muted); }

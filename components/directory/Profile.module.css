@@ -1,0 +1,82 @@
+/* ── Founder profile block (on /friends) ──────────────────────────────────── */
+.founder {
+  display: grid;
+  grid-template-columns: minmax(8rem, 12rem) 1fr;
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
+  border-top: 2px solid var(--color-primary);
+}
+@media (max-width: 720px) {
+  .founder { grid-template-columns: 1fr; gap: var(--space-2); }
+}
+
+.founderLabel span {
+  font-size: var(--text-meta);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent-ink);
+}
+.founderName { margin: 0 0 0.2rem; }
+.founderLead {
+  font-family: var(--font-headings);
+  font-style: italic;
+  color: var(--color-muted);
+  margin: 0 0 var(--space-2);
+}
+.founderBio :global(p) { max-width: var(--measure-narrow); }
+.founderBio :global(a) { color: var(--color-accent-ink); }
+.founderLinks {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+  font-weight: 500;
+}
+
+/* ── Full profile page (/friends/[slug]) ──────────────────────────────────── */
+.page { padding-top: var(--space-5); }
+.crumb {
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  margin-bottom: var(--space-2);
+}
+.crumb a { color: var(--color-muted); }
+
+.profileHead {
+  border-bottom: 1px solid var(--color-line-strong);
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+.kicker {
+  font-size: var(--text-meta);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-accent-ink);
+  margin: 0 0 0.4rem;
+}
+.contact {
+  font-family: var(--font-headings);
+  font-style: italic;
+  color: var(--color-muted);
+  font-size: 1.2rem;
+  margin: 0;
+}
+.bio { max-width: var(--measure); }
+.bio :global(h3) { margin-top: var(--space-3); }
+.bio :global(blockquote) {
+  border-left: 3px solid var(--color-accent);
+  padding-left: var(--space-2);
+  font-style: italic;
+  color: var(--color-primary);
+}
+.partnership {
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  border-top: 1px solid var(--color-line);
+  padding-top: var(--space-2);
+}
+.visit {
+  display: inline-block;
+  margin-top: var(--space-3);
+  font-weight: 500;
+}
