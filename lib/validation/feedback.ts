@@ -2,7 +2,7 @@ import { z } from "zod";
 
 /** Public feedback: improvement recommendations or concerns (incl. photo reports). */
 export const feedbackSchema = z.object({
-  type: z.enum(["RECOMMENDATION", "CONCERN", "PHOTO_CONCERN"]),
+  type: z.enum(["APPRECIATION", "RECOMMENDATION", "CONCERN", "PHOTO_CONCERN"]),
   message: z
     .string()
     .trim()

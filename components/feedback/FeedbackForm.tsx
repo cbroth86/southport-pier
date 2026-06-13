@@ -27,7 +27,7 @@ export function FeedbackForm({
   initialType = "RECOMMENDATION",
   reference = "",
 }: {
-  initialType?: "RECOMMENDATION" | "CONCERN" | "PHOTO_CONCERN";
+  initialType?: "APPRECIATION" | "RECOMMENDATION" | "CONCERN" | "PHOTO_CONCERN";
   reference?: string;
 }) {
   const [state, formAction] = useActionState(submitFeedback, initialState);
@@ -59,6 +59,7 @@ export function FeedbackForm({
           value={type}
           onChange={(e) => setType(e.target.value as typeof type)}
         >
+          <option value="APPRECIATION">A message of appreciation or thanks</option>
           <option value="RECOMMENDATION">A recommendation or idea for improvement</option>
           <option value="CONCERN">A concern about the website or project</option>
           <option value="PHOTO_CONCERN">A concern about a photograph</option>

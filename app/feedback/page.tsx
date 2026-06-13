@@ -16,7 +16,8 @@ export const metadata: Metadata = {
 // The form is a client island; the page itself needs no database at render time.
 export const dynamic = "force-static";
 
-const TYPE_MAP: Record<string, "RECOMMENDATION" | "CONCERN" | "PHOTO_CONCERN"> = {
+const TYPE_MAP: Record<string, "APPRECIATION" | "RECOMMENDATION" | "CONCERN" | "PHOTO_CONCERN"> = {
+  appreciation: "APPRECIATION",
   recommendation: "RECOMMENDATION",
   concern: "CONCERN",
   photo: "PHOTO_CONCERN",
@@ -38,8 +39,9 @@ export default async function FeedbackPage({
           <h1>Feedback &amp; concerns</h1>
           <p className={styles.intro}>
             This archive is built for the people of Southport and it keeps evolving with
-            your help. Use the form below to suggest an improvement, share an idea, or
-            raise a concern — including about a photograph that appears on the site.
+            your help. Use the form below to share your appreciation, suggest an
+            improvement, or raise a concern — including about a photograph that appears on
+            the site.
           </p>
           <SideNote title="Please note">
             <p>

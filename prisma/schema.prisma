@@ -35,6 +35,7 @@ enum ApprovalStatus {
 }
 
 enum FeedbackType {
+  APPRECIATION
   RECOMMENDATION
   CONCERN
   PHOTO_CONCERN
