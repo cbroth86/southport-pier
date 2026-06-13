@@ -18,8 +18,10 @@ export const feedbackSchema = z.object({
     .or(z.literal("")),
   // Reference to a reported photo (id or URL); only meaningful for PHOTO_CONCERN.
   reference: z.string().trim().max(512).optional().or(z.literal("")),
-  // Honeypot — must remain empty. Bots fill it; humans never see it.
-  website: z.string().max(0).optional(),
+  // Honeypot — humans never see it. Accept ANY value so a filled value (bot or
+  // browser autofill) doesn't surface a confusing error on a hidden field; the
+  // submit action inspects it separately and silently accepts.
+  website: z.string().max(2000).optional(),
 });
 
 export type FeedbackSubmission = z.infer<typeof feedbackSchema>;

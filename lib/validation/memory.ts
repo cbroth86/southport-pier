@@ -10,8 +10,10 @@ export const memorySubmissionSchema = z.object({
     .max(4000, "Please keep memories under 4,000 characters."),
   imageURL: z.string().url("A valid image URL is required.").optional().or(z.literal("")),
   imageAlt: z.string().trim().max(160).optional().or(z.literal("")),
-  // Honeypot — must remain empty. Bots fill it; humans never see it.
-  website: z.string().max(0).optional(),
+  // Honeypot — humans never see it. We accept ANY value here so a filled value
+  // (bot or browser autofill) doesn't surface a confusing validation error on a
+  // hidden field; the submit action inspects it separately and silently accepts.
+  website: z.string().max(2000).optional(),
 });
 
 export type MemorySubmission = z.infer<typeof memorySubmissionSchema>;
