@@ -1,0 +1,112 @@
+// Southport Pier — community heritage archive
+// Datasource: Supabase Postgres (pooled runtime URL + direct URL for migrations)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  ADMIN
+  CONTRIBUTOR
+}
+
+enum DirectoryCategory {
+  MIND_WELLBEING
+  COMMUNITY_ACTION
+  LOCAL_TRADE
+}
+
+enum MembershipTier {
+  FOUNDER
+  COMMUNITY
+  PAID_DIRECTORY
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id               String             @id @default(cuid())
+  email            String             @unique
+  name             String?
+  role             Role               @default(CONTRIBUTOR)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  approvedMemories MemoryPost[]       @relation("MemoryApprovedBy")
+  directoryItems   DirectoryListing[] @relation("DirectoryApprovedBy")
+}
+
+model MemoryPost {
+  id          String @id @default(cuid())
+  title       String
+  story       String
+  imageURL    String
+  // A11y: explicit alternative text for the memory's image (added to hit A11y 100).
+  imageAlt    String?
+  blurDataURL String?
+  residentName String
+
+  // approvalStatus is the SINGLE SOURCE OF TRUTH. isApproved is a derived mirror
+  // kept in sync inside the moderation Server Action for fast boolean indexing.
+  approvalStatus ApprovalStatus @default(PENDING)
+  isApproved     Boolean        @default(false)
+
+  approvedById String?
+  approvedBy   User?    @relation("MemoryApprovedBy", fields: [approvedById], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([isApproved, createdAt])
+  @@index([approvalStatus, createdAt])
+}
+
+model DirectoryListing {
+  id           String @id @default(cuid())
+  businessName String
+  slug         String @unique
+  contactName  String
+  description  String
+  // Sanitised (allowlisted) HTML — see lib/sanitize.ts. Never store raw user HTML.
+  bioHTML      String
+  logoURL      String?
+  websiteURL   String
+
+  category       DirectoryCategory
+  membershipTier MembershipTier
+  isPaid         Boolean           @default(false)
+
+  approvalStatus ApprovalStatus @default(PENDING)
+
+  approvedById String?
+  approvedBy   User?    @relation("DirectoryApprovedBy", fields: [approvedById], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([category, membershipTier])
+  @@index([approvalStatus, createdAt])
+}
+
+model UploadedMedia {
+  id          String   @id @default(cuid())
+  url         String
+  blurDataURL String?
+  width       Int
+  height      Int
+  alt         String?
+  credit      String?
+  yearTaken   Int?
+  description String?
+  createdAt   DateTime @default(now())
+
+  // Keyset pagination for the mural feed (newest-first, stable tie-break on id).
+  @@index([createdAt, id])
+}

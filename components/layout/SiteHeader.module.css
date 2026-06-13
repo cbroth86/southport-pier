@@ -1,0 +1,90 @@
+.header {
+  border-bottom: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+  backdrop-filter: saturate(1.1);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.inner {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding: var(--space-2) var(--page-gutter);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.brand {
+  text-decoration: none;
+  color: var(--color-primary);
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.brandMark {
+  font-family: var(--font-headings);
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: -0.01em;
+}
+
+.brandSub {
+  font-size: var(--text-meta);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* Desktop: inline nav, no disclosure affordance. */
+.list {
+  list-style: none;
+  display: flex;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+}
+
+.link {
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 500;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+}
+.link:hover {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-accent);
+}
+
+.toggle {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    list-style: none;
+  }
+  .toggle::-webkit-details-marker {
+    display: none;
+  }
+  .toggleBar {
+    width: 1.2rem;
+    height: 2px;
+    background: var(--color-primary);
+    box-shadow: 0 5px 0 var(--color-primary), 0 -5px 0 var(--color-primary);
+  }
+  .list {
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-2) 0 0;
+  }
+}

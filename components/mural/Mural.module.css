@@ -1,0 +1,93 @@
+/* Masonry via CSS columns — varied heights, no uniform grid. */
+.grid {
+  columns: 4 14rem;
+  column-gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.cell {
+  display: block;
+  width: 100%;
+  margin: 0 0 var(--space-2);
+  padding: 0;
+  border: 0;
+  background: var(--color-secondary);
+  cursor: zoom-in;
+  break-inside: avoid;
+  overflow: hidden;
+}
+.cell :global(img) {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 300ms var(--ease);
+}
+.cell:hover :global(img) { transform: scale(1.03); }
+
+.sentinel { height: 1px; }
+
+.status {
+  text-align: center;
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+  margin: var(--space-3) 0 0;
+  min-height: 1.5em;
+}
+
+@media (max-width: 640px) {
+  .grid { columns: 2 8rem; }
+}
+
+/* ── Native dialog lightbox ───────────────────────────────────────────────── */
+.dialog {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  max-width: min(92vw, 1100px);
+  max-height: 92vh;
+  color: var(--color-secondary);
+}
+.dialog::backdrop {
+  background: color-mix(in srgb, var(--color-primary-deep) 88%, transparent);
+  backdrop-filter: blur(2px);
+}
+
+.dialogInner {
+  background: var(--color-primary-deep);
+  padding: var(--space-3);
+  display: grid;
+  gap: var(--space-2);
+}
+
+.dialogImage {
+  width: 100%;
+  height: auto;
+  max-height: 72vh;
+  object-fit: contain;
+}
+
+.close {
+  justify-self: end;
+  font: inherit;
+  font-weight: 500;
+  background: transparent;
+  color: var(--color-secondary);
+  border: 1px solid color-mix(in srgb, var(--color-secondary) 40%, transparent);
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+}
+.close:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+.caption { margin: 0; }
+.captionDesc {
+  margin: 0 0 0.4rem;
+  color: var(--color-bg);
+  font-family: var(--font-headings);
+}
+.captionMeta {
+  display: flex;
+  gap: var(--space-3);
+  margin: 0;
+  font-size: var(--text-sm);
+  color: color-mix(in srgb, var(--color-secondary) 80%, transparent);
+}
