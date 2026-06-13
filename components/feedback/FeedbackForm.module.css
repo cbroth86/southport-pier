@@ -39,6 +39,23 @@
 
 .hint { font-size: var(--text-sm); color: var(--color-muted); }
 
+/* Inline help marker beside a label — reveals guidance on hover/focus via title. */
+.tip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15em;
+  height: 1.15em;
+  border-radius: 50%;
+  border: 1px solid var(--color-line-strong);
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: help;
+  vertical-align: middle;
+}
+.tip:focus-visible { outline: 2px solid var(--color-accent-ink); }
+
 .error {
   color: #8a2b22;
   font-size: var(--text-sm);

@@ -1,9 +1,12 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { submitFeedback, type FeedbackState } from "@/app/feedback/actions";
 import styles from "./FeedbackForm.module.css";
+
+const PHOTO_URL_TIP =
+  "Open the photograph on the Mural page, then: on a computer, right-click the image and choose “Copy image address”; on a phone or tablet, press and hold the image and choose “Copy image address” (or “Copy link”). Paste that link here so we can find the exact photo.";
 
 const initialState: FeedbackState = { ok: false, message: "" };
 
@@ -28,7 +31,9 @@ export function FeedbackForm({
   reference?: string;
 }) {
   const [state, formAction] = useActionState(submitFeedback, initialState);
+  const [type, setType] = useState(initialType);
   const errors = state.fieldErrors ?? {};
+  const isPhotoConcern = type === "PHOTO_CONCERN";
 
   if (state.ok && state.message) {
     return (
@@ -46,16 +51,53 @@ export function FeedbackForm({
         </p>
       ) : null}
 
-      {reference ? <input type="hidden" name="reference" value={reference} /> : null}
-
       <div className={styles.field}>
         <label htmlFor="type">What would you like to tell us?</label>
-        <select id="type" name="type" defaultValue={initialType}>
+        <select
+          id="type"
+          name="type"
+          value={type}
+          onChange={(e) => setType(e.target.value as typeof type)}
+        >
           <option value="RECOMMENDATION">A recommendation or idea for improvement</option>
           <option value="CONCERN">A concern about the website or project</option>
           <option value="PHOTO_CONCERN">A concern about a photograph</option>
         </select>
       </div>
+
+      {/* Branching field: only shown when the concern is about a photograph. */}
+      {isPhotoConcern ? (
+        <div className={styles.field}>
+          <label htmlFor="reference">
+            Link to the photograph{" "}
+            <span
+              className={styles.tip}
+              tabIndex={0}
+              role="note"
+              aria-label={PHOTO_URL_TIP}
+              title={PHOTO_URL_TIP}
+            >
+              ?
+            </span>
+          </label>
+          <input
+            id="reference"
+            name="reference"
+            type="text"
+            inputMode="url"
+            defaultValue={reference}
+            placeholder="Paste the image link, e.g. https://…"
+            aria-describedby="hint-reference"
+          />
+          <span id="hint-reference" className={styles.hint}>
+            Open the photo on the Mural page and copy its image address, then paste it
+            here. If you can’t copy the link, just describe the photo in your message
+            below.
+          </span>
+        </div>
+      ) : (
+        reference ? <input type="hidden" name="reference" value={reference} /> : null
+      )}
 
       <div className={styles.field}>
         <label htmlFor="message">Your message</label>
