@@ -2,12 +2,11 @@
 // Datasource: Supabase Postgres (pooled runtime URL + direct URL for migrations)
 
 generator client {
-  provider        = "prisma-client-js"
-  // queryCompiler + driverAdapters remove the native Rust query engine entirely:
-  // queries are compiled in WASM and run through the `pg` JavaScript driver. This
-  // eliminates the engine binary that was crashing the Vercel function
-  // (FUNCTION_INVOCATION_FAILED) — there is no native code left to fail to load.
-  previewFeatures = ["driverAdapters", "queryCompiler"]
+  provider      = "prisma-client-js"
+  // Generate the query engine for BOTH local dev and the Vercel serverless
+  // runtime (Amazon Linux 2023 / OpenSSL 3). Paired with outputFileTracingIncludes
+  // in next.config so the engine is actually shipped in the function bundle.
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {

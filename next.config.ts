@@ -7,6 +7,15 @@ const SUPABASE_HOST = process.env.NEXT_PUBLIC_SUPABASE_URL
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Force the Prisma query engine (.so.node) into every serverless function
+  // bundle. Without this, Next's file tracing can omit the engine, and Prisma
+  // crashes at init on Vercel (FUNCTION_INVOCATION_FAILED) before any query runs.
+  outputFileTracingIncludes: {
+    "/**": [
+      "./node_modules/.prisma/client/**",
+      "./node_modules/@prisma/client/**",
+    ],
+  },
   experimental: {
     // Server Actions body size for image uploads via the moderation pipeline.
     serverActions: { bodySizeLimit: "8mb" },
